@@ -81,9 +81,6 @@ class PeminjamanController extends Controller
             
             DB::commit(); 
 
-            // ==============================================================
-            // BLOK PENGIRIMAN EMAIL NOTIFIKASI VERIFIKASI (DEBUGGING AKTIF)
-            // ==============================================================
             try {
                 $peminjaman->load(['user', 'unit_tujuan', 'detail_peminjaman.item_inventaris.peralatan']); 
                 $emailPegawai = $peminjaman->user->email;
@@ -91,15 +88,10 @@ class PeminjamanController extends Controller
 
                 Mail::to($emailPegawai)->send(new NotifikasiPeminjaman($peminjaman, $jenisNotif));
                 
+                return redirect()->route('admin.peminjaman.index')->with('success', 'Verifikasi berhasil, email notifikasi telah terkirim ke pengguna!');
             } catch (\Exception $mailException) {
-                // TAMPILKAN ERROR KE LAYAR JIKA GAGAL
-                dd([
-                    'PESAN_ERROR_VERIFIKASI' => $mailException->getMessage(),
-                    'INFO' => 'Email gagal dikirim ke ' . $emailPegawai
-                ]);
+                return redirect()->route('admin.peminjaman.index')->with('warning', 'Verifikasi berhasil disimpan, NAMUN email gagal dikirim karena masalah SMTP/Internet.');
             }
-
-            return redirect()->route('admin.peminjaman.index')->with('success', 'Verifikasi berhasil, email notifikasi telah terkirim ke pengguna!');
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -113,13 +105,24 @@ class PeminjamanController extends Controller
         $request->validate([
             'kondisi_kembali' => 'required|array', 
             'catatan_kerusakan' => 'nullable|array',
+            // Dibuat NULLABLE karena bisa saja Pegawai sudah mengupload fotonya duluan
+            'foto_pengembalian' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', 
         ]);
 
         DB::beginTransaction();
         try {
+            // Ambil foto yang sudah ada (jika pegawai sudah mengupload sebelumnya)
+            $pathFoto = $peminjaman->foto_pengembalian;
+
+            // Jika Admin mengupload foto baru (override/Admin yang mengembalikan)
+            if ($request->hasFile('foto_pengembalian')) {
+                $pathFoto = $request->file('foto_pengembalian')->store('bukti_pengembalian', 'public');
+            }
+
             $peminjaman->update([
                 'status_peminjaman' => 'Dikembalikan',
                 'tanggal_dikembalikan' => now(),
+                'foto_pengembalian' => $pathFoto, // Simpan ke nama kolom yang baru
             ]);
 
             foreach ($request->kondisi_kembali as $detail_id => $kondisi) {
@@ -148,25 +151,15 @@ class PeminjamanController extends Controller
             }
             DB::commit();
 
-            // ==============================================================
-            // BLOK PENGIRIMAN EMAIL NOTIFIKASI PENGEMBALIAN (DEBUGGING AKTIF)
-            // ==============================================================
             try {
                 $peminjaman->load(['user']); 
                 $emailPegawai = $peminjaman->user->email;
-
-                // Menggunakan Mail class yang sama, tapi parameternya 'dikembalikan'
                 Mail::to($emailPegawai)->send(new NotifikasiPeminjaman($peminjaman, 'dikembalikan'));
                 
+                return redirect()->route('admin.peminjaman.index')->with('success', 'Pengembalian alat berhasil diproses dan email terkirim.');
             } catch (\Exception $mailException) {
-                // TAMPILKAN ERROR KE LAYAR JIKA GAGAL
-                dd([
-                    'PESAN_ERROR_PENGEMBALIAN' => $mailException->getMessage(),
-                    'INFO' => 'Email gagal dikirim ke ' . $emailPegawai
-                ]);
+                return redirect()->route('admin.peminjaman.index')->with('warning', 'Pengembalian alat berhasil diproses, NAMUN email gagal dikirim karena masalah SMTP/Internet.');
             }
-
-            return redirect()->route('admin.peminjaman.index')->with('success', 'Pengembalian alat berhasil diproses dan email terkirim.');
             
         } catch (\Exception $e) {
             DB::rollBack();
