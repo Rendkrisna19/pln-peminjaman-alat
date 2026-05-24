@@ -104,6 +104,14 @@
                     </div>
                 </a>
             </div>
+            @else
+            <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+                <h3 class="font-bold text-gray-800 mb-4 border-b pb-2"><i class="fa-solid fa-camera text-pln-cyan mr-1"></i> Bukti Fisik Pengembalian</h3>
+                <div class="bg-gray-50 border-2 border-dashed border-gray-200 rounded-xl p-6 text-center text-gray-400">
+                    <i class="fa-solid fa-image text-3xl mb-2"></i>
+                    <p class="text-sm font-medium">Belum ada foto bukti pengembalian</p>
+                </div>
+            </div>
             @endif
 
         </div>

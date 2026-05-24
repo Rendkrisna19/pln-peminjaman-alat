@@ -154,7 +154,11 @@ class PeminjamanController extends Controller
             try {
                 $peminjaman->load(['user']); 
                 $emailPegawai = $peminjaman->user->email;
-                Mail::to($emailPegawai)->send(new NotifikasiPeminjaman($peminjaman, 'dikembalikan'));
+                $emailAdmin = env('MAIL_FROM_ADDRESS', config('mail.from.address'));
+
+                Mail::to($emailPegawai)
+                    ->cc($emailAdmin)
+                    ->send(new NotifikasiPeminjaman($peminjaman, 'dikembalikan'));
                 
                 return redirect()->route('admin.peminjaman.index')->with('success', 'Pengembalian alat berhasil diproses dan email terkirim.');
             } catch (\Exception $mailException) {

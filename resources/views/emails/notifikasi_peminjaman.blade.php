@@ -47,6 +47,10 @@
                 @elseif($jenisNotif === 'dikembalikan')
                     <p>Terima kasih! Alat yang Anda pinjam telah berhasil direkam oleh sistem dengan status:</p>
                     <div class="status-badge status-dikembalikan">Dikembalikan ke Gudang</div>
+                @elseif($jenisNotif === 'pengingat')
+                    <p>Mengingatkan Anda bahwa batas waktu pengembalian alat peminjaman ini adalah <strong>H-1 (Satu Hari Lagi)</strong>.</p>
+                    <div class="status-badge status-baru" style="background-color: #fef08a; color: #854d0e;">Pengingat H-1</div>
+                    <p>Mohon pastikan alat segera dikembalikan dalam kondisi lengkap ke ruang inventaris/gudang.</p>
                 @endif
             @endif
 

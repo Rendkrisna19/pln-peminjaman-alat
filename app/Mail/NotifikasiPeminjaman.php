@@ -31,6 +31,8 @@ class NotifikasiPeminjaman extends Mailable
             $subject = 'PERMOHONAN BARU: ' . $this->peminjaman->kode_peminjaman;
         } elseif ($this->jenisNotif == 'dikembalikan') {
             $subject = 'ALAT DIKEMBALIKAN: ' . $this->peminjaman->kode_peminjaman;
+        } elseif ($this->jenisNotif == 'pengingat') {
+            $subject = 'PENGINGAT PENGEMBALIAN: ' . $this->peminjaman->kode_peminjaman;
         } else {
             $subject = 'UPDATE STATUS: ' . $this->peminjaman->kode_peminjaman;
         }

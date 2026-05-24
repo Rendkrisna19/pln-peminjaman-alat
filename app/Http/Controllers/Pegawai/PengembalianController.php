@@ -90,7 +90,20 @@ class PengembalianController extends Controller
             }
 
             DB::commit();
-            return redirect()->route('pegawai.riwayat.index')->with('success', 'Berhasil! Alat telah dikembalikan beserta bukti foto.');
+
+            try {
+                $peminjaman->load(['user']); 
+                $emailPegawai = $peminjaman->user->email;
+                $emailAdmin = env('MAIL_FROM_ADDRESS', config('mail.from.address'));
+
+                \Illuminate\Support\Facades\Mail::to($emailPegawai)
+                    ->cc($emailAdmin)
+                    ->send(new \App\Mail\NotifikasiPeminjaman($peminjaman, 'dikembalikan'));
+                
+                return redirect()->route('pegawai.riwayat.index')->with('success', 'Berhasil! Alat telah dikembalikan beserta bukti foto dan notifikasi email terkirim.');
+            } catch (\Exception $mailException) {
+                return redirect()->route('pegawai.riwayat.index')->with('warning', 'Berhasil! Alat telah dikembalikan beserta bukti foto, NAMUN email notifikasi gagal dikirim (cek koneksi/SMTP).');
+            }
 
         } catch (\Exception $e) {
             DB::rollBack();

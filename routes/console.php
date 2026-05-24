@@ -12,5 +12,8 @@ Artisan::command('inspire', function () {
 // Command akan berjalan setiap hari pada jam 08:00 pagi
 Schedule::command('logistik:check-overdue')->dailyAt('08:00');
 
+// Command untuk pengingat pengembalian H-1 berjalan setiap jam 08:30 pagi
+Schedule::command('peminjaman:pengingat')->dailyAt('08:30');
+
 // (Opsional) Jika ingin jalan setiap jam untuk testing, gunakan:
 // Schedule::command('logistik:check-overdue')->hourly();
