@@ -30,7 +30,7 @@
 
         <div class="content">
             @if($jenisNotif === 'baru')
-                <p>Halo <strong>Admin Logistik</strong>,</p>
+                <p>Halo <strong>Admin </strong>,</p>
                 <p>Terdapat permohonan peminjaman alat baru yang menunggu verifikasi Anda dengan status:</p>
                 <div class="status-badge status-baru">Menunggu Verifikasi</div>
             @else
@@ -93,7 +93,7 @@
 
         <div class="footer">
             <p>Email ini dikirim secara otomatis oleh sistem. Mohon untuk tidak membalas email ini.</p>
-            <p>&copy; {{ date('Y') }} Logistik PT PLN (Persero). All rights reserved.</p>
+            <p>&copy; {{ date('Y') }} PT PLN (Persero). All rights reserved.</p>
         </div>
     </div>
 </body>

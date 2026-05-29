@@ -95,7 +95,7 @@
     <div class="signature-container">
         <div class="signature-box">
             <p>Pandan, {{ \Carbon\Carbon::now()->translatedFormat('d F Y') }}</p>
-            <p><strong>Supervisor Logistik</strong></p>
+            <p><strong>Supervisor </strong></p>
             <div class="signature-space"></div>
             <p><strong>{{ Auth::user()->nama_lengkap }}</strong></p>
             <p>NIP. ............................</p>
