@@ -58,6 +58,20 @@
                 </div>
             </div>
 
+            <!-- Dropdown Per Page -->
+            <div class="relative lg:w-32">
+                <i class="fa-solid fa-list-ol absolute left-4 top-3.5 text-gray-400"></i>
+                <select name="per_page" class="w-full pl-11 pr-10 py-3 rounded-xl border-2 border-gray-100 focus:border-pln-cyan focus:ring-0 text-sm font-bold text-gray-700 appearance-none bg-white shadow-sm cursor-pointer transition hover:border-gray-200" onchange="this.form.submit()">
+                    <option value="12" {{ request('per_page', 12) == 12 ? 'selected' : '' }}>12 Data</option>
+                    <option value="24" {{ request('per_page') == 24 ? 'selected' : '' }}>24 Data</option>
+                    <option value="50" {{ request('per_page') == 50 ? 'selected' : '' }}>50 Data</option>
+                    <option value="100" {{ request('per_page') == 100 ? 'selected' : '' }}>100 Data</option>
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
+                    <i class="fa-solid fa-chevron-down text-xs"></i>
+                </div>
+            </div>
+
             <!-- Tombol Filter -->
             <div class="flex gap-2">
                 <button type="submit" class="px-8 py-3 bg-pln-dark text-white font-extrabold rounded-xl border-2 border-pln-dark hover:bg-gray-800 transition shadow-md flex items-center justify-center gap-2">

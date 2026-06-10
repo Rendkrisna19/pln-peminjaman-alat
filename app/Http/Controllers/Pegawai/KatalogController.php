@@ -26,6 +26,7 @@ class KatalogController extends Controller
         
         $sortField = $request->input('sort_field', 'nama_alat');
         $sortDirection = $request->input('sort_direction', 'asc');
+        $perPage = $request->input('per_page', 12);
 
         // Mengambil data Rak untuk Dropdown Filter
         // Jika model Anda bernama RakPenyimpanan, ubah Rak:: menjadi RakPenyimpanan::
@@ -59,9 +60,9 @@ class KatalogController extends Controller
         }
 
         // Eksekusi Query dengan Pagination
-        $peralatan = $query->orderBy($sortField, $sortDirection)->paginate(12)->withQueryString();
+        $peralatan = $query->orderBy($sortField, $sortDirection)->paginate($perPage)->withQueryString();
 
-        return view('pegawai.katalog.index', compact('peralatan', 'search', 'filterRak', 'filterStatus', 'daftarRak', 'sortField', 'sortDirection'));
+        return view('pegawai.katalog.index', compact('peralatan', 'search', 'filterRak', 'filterStatus', 'daftarRak', 'sortField', 'sortDirection', 'perPage'));
     }
 
     // =========================================================================

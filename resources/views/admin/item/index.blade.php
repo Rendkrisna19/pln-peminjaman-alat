@@ -34,7 +34,7 @@
 
             <div class="flex-1 relative">
                 <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-gray-400"></i>
-                <input type="text" name="search" value="{{ $search }}" placeholder="Cari Barcode (cth: PLNU-001) atau Nama Alat..." 
+                <input type="text" name="search" value="{{ $search }}" placeholder="Cari Barcode (cth: PAND-001) atau Nama Alat..." 
                     class="w-full pl-11 pr-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-pln-cyan focus:ring-0 text-sm transition-colors font-medium">
             </div>
             

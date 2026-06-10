@@ -64,18 +64,18 @@
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Total Stok (Readonly) -->
+                        <!-- Total Stok (Dapat Diedit) -->
                         <div class="space-y-2">
                             <label class="flex justify-between items-center">
                                 <span class="text-sm font-bold text-gray-700">Total Stok Saat Ini</span>
-                                <span class="text-[10px] bg-gray-200 text-gray-500 px-2 py-0.5 rounded font-bold uppercase tracking-wider"><i class="fa-solid fa-lock text-[8px]"></i> Terkunci</span>
+                                <span class="text-[10px] bg-green-100 text-green-600 px-2 py-0.5 rounded font-bold uppercase tracking-wider"><i class="fa-solid fa-pen text-[8px]"></i> Dapat Diedit</span>
                             </label>
                             <div class="relative">
                                 <i class="fa-solid fa-boxes-stacked absolute left-4 top-3.5 text-gray-400"></i>
-                                <input type="number" name="total_stok" value="{{ old('total_stok', $peralatan->total_stok) }}" min="0" required readonly
-                                    class="w-full pl-11 pr-4 py-3 rounded-xl border-2 border-gray-200 focus:ring-0 text-sm font-extrabold text-gray-500 bg-gray-50 cursor-not-allowed shadow-inner transition-colors" title="Stok hanya bisa diubah dari menu Item Inventaris (Barcode)">
+                                <input type="number" name="total_stok" value="{{ old('total_stok', $peralatan->total_stok) }}" min="0" required
+                                    class="w-full pl-11 pr-4 py-3 rounded-xl border-2 border-gray-200 focus:border-pln-cyan focus:ring-0 text-sm font-bold text-gray-700 shadow-sm transition hover:border-gray-300" title="Sesuaikan jumlah stok peralatan">
                             </div>
-                            <p class="text-[11px] text-gray-400 font-medium italic mt-1"><i class="fa-solid fa-circle-info"></i> Stok dikalkulasi otomatis dari data Item Fisik (Barcode).</p>
+                            <p class="text-[11px] text-gray-400 font-medium italic mt-1"><i class="fa-solid fa-circle-info"></i> Pastikan stok sesuai dengan jumlah fisik peralatan.</p>
                         </div>
 
                         <!-- Rak Penyimpanan -->

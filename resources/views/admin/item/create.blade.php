@@ -32,7 +32,7 @@
                 <label class="block text-sm font-bold text-gray-700 mb-2">Kode Barcode Fisik <span class="text-red-500">*</span></label>
                 <div class="relative">
                     <i class="fa-solid fa-barcode absolute left-4 top-3.5 text-gray-400"></i>
-                    <input type="text" name="kode_barcode" value="{{ old('kode_barcode') }}" required placeholder="Contoh: PLNU-001-001" 
+                    <input type="text" name="kode_barcode" value="{{ old('kode_barcode') }}" required placeholder="Contoh: PAND-001-001" 
                         class="w-full pl-11 pr-4 py-3 rounded-xl border-2 border-gray-300 focus:border-pln-cyan focus:ring-0 transition-colors font-mono font-bold text-pln-cyan">
                 </div>
                 <p class="text-xs text-gray-500 mt-1 font-medium">Pastikan kode tercetak jelas pada fisik alat. Harus unik.</p>
