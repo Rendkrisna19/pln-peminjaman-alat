@@ -14,7 +14,7 @@
         <form action="{{ route('supervisor.jejak.index') }}" method="GET" class="flex flex-col sm:flex-row gap-3">
             <div class="relative flex-1">
                 <i class="fa-solid fa-barcode absolute left-4 top-3.5 text-gray-400 text-lg"></i>
-                <input type="text" name="search" value="{{ $search }}" placeholder="Scan atau ketik Kode Barcode (cth: PLNU-001)..." 
+                <input type="text" name="search" value="{{ $search }}" placeholder="Scan atau ketik Kode Barcode (cth: PAND-001)..." 
                        class="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-gray-200 focus:border-pln-cyan focus:ring-0 text-gray-800 font-bold transition">
             </div>
             <button type="submit" class="px-8 py-3 bg-pln-cyan text-white font-bold rounded-xl shadow-lg shadow-pln-cyan/30 hover:bg-[#008Cca] transition transform hover:-translate-y-0.5">
