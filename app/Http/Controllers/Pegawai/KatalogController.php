@@ -127,6 +127,9 @@ class KatalogController extends Controller
                     'item_inventaris_id' => $item->id,
                     'kondisi_saat_dipinjam' => $item->kondisi,
                 ]);
+
+                // Langsung kurangi stok (ubah status ketersediaan)
+                $item->update(['status_ketersediaan' => 'Dipinjam']);
             }
 
             DB::commit();

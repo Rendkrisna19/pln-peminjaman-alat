@@ -62,10 +62,12 @@ class PeminjamanController extends Controller
                 'admin_id' => Auth::id(),
             ]);
 
+            $details = DetailPeminjaman::where('peminjaman_id', $peminjaman->id)->get();
             if ($request->status_peminjaman === 'Disetujui') {
-                $details = DetailPeminjaman::where('peminjaman_id', $peminjaman->id)->get();
                 foreach ($details as $detail) {
                     $item = ItemInventaris::find($detail->item_inventaris_id);
+                    // Update status sudah dilakukan di KatalogController saat pengajuan, 
+                    // tapi kita pastikan lagi atau langsung insert tracking log saja
                     $item->update(['status_ketersediaan' => 'Dipinjam']);
 
                     TrackingLog::create([
@@ -76,6 +78,14 @@ class PeminjamanController extends Controller
                         'aktivitas' => 'Alat disetujui dan dipinjam ke ' . $peminjaman->unit_tujuan->nama_unit,
                         'tanggal_waktu' => now(),
                     ]);
+                }
+            } else {
+                // Jika Ditolak, kembalikan stok menjadi Tersedia
+                foreach ($details as $detail) {
+                    $item = ItemInventaris::find($detail->item_inventaris_id);
+                    if ($item) {
+                        $item->update(['status_ketersediaan' => 'Tersedia']);
+                    }
                 }
             }
             
