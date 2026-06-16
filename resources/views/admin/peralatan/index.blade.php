@@ -127,7 +127,7 @@
                                 </a>
                                 
                                 <!-- Tombol Hapus -->
-                                <button type="button" onclick="if(confirm('Peringatan: Menghapus data ini juga akan menghapus seluruh item inventaris yang terkait dengannya. Yakin ingin melanjutkan?')) document.getElementById('delete-form-{{ $item->id }}').submit();" class="w-9 h-9 flex items-center justify-center text-red-600 bg-red-50 rounded-xl hover:bg-red-600 hover:text-white border border-red-200 transition-all duration-300 shadow-sm" title="Hapus Alat">
+                                <button type="button" onclick="confirmForceDelete({{ $item->id }})" class="w-9 h-9 flex items-center justify-center text-red-600 bg-red-50 rounded-xl hover:bg-red-600 hover:text-white border border-red-200 transition-all duration-300 shadow-sm" title="Hapus Alat">
                                     <i class="fa-solid fa-trash-can"></i>
                                 </button>
                                 
@@ -164,4 +164,23 @@
         </div>
     </div>
 </div>
+
+<script>
+    function confirmForceDelete(id) {
+        Swal.fire({
+            title: 'Hapus Peralatan & Item Fisik?',
+            text: "Peringatan: Menghapus data ini juga akan MENGHAPUS PAKSA seluruh item fisik dan histori peminjamannya! Anda tidak dapat mengembalikan tindakan ini.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#e3342f',
+            cancelButtonColor: '#6b7280',
+            confirmButtonText: '<i class="fa-solid fa-trash"></i> Ya, Hapus Paksa!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('delete-form-' + id).submit();
+            }
+        })
+    }
+</script>
 @endsection
