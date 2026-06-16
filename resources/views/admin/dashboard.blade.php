@@ -26,8 +26,9 @@
         </div>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
         
+        {{-- Card 1: Total Aset (Unit Fisik) --}}
         <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 hover:bg-pln-cyan hover:shadow-xl hover:-translate-y-1 transition-all duration-500 ease-in-out group cursor-pointer">
             <div class="flex items-center justify-between mb-4">
                 <div class="p-3 bg-pln-cyan/10 group-hover:bg-white/20 rounded-2xl transition-colors duration-500">
@@ -36,9 +37,10 @@
                 <span class="text-xs font-bold text-gray-400 group-hover:text-blue-100 uppercase tracking-wider transition-colors duration-500">Total Aset</span>
             </div>
             <h3 class="text-3xl font-black text-gray-800 group-hover:text-white transition-colors duration-500">{{ $total_alat }}</h3>
-            <p class="text-sm text-gray-500 group-hover:text-blue-100 mt-1 transition-colors duration-500">Unit terdaftar</p>
+            <p class="text-sm text-gray-500 group-hover:text-blue-100 mt-1 transition-colors duration-500">Unit fisik terdaftar</p>
         </div>
 
+        {{-- Card 2: Tersedia --}}
         <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 hover:bg-gray-600 hover:shadow-xl hover:-translate-y-1 transition-all duration-500 ease-in-out group cursor-pointer">
             <div class="flex items-center justify-between mb-4">
                 <div class="p-3 bg-gray-100 group-hover:bg-white/20 rounded-2xl transition-colors duration-500">
@@ -50,6 +52,7 @@
             <p class="text-sm text-gray-500 group-hover:text-gray-300 mt-1 transition-colors duration-500">Siap dipinjam</p>
         </div>
 
+        {{-- Card 3: Dipinjam --}}
         <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 hover:bg-[#e5c100] hover:shadow-xl hover:-translate-y-1 transition-all duration-500 ease-in-out group cursor-pointer">
             <div class="flex items-center justify-between mb-4">
                 <div class="p-3 bg-yellow-50 group-hover:bg-white/30 rounded-2xl transition-colors duration-500">
@@ -61,6 +64,7 @@
             <p class="text-sm text-gray-500 group-hover:text-yellow-50 mt-1 transition-colors duration-500">Di teknisi lapangan</p>
         </div>
 
+        {{-- Card 4: Perbaikan (Rusak Ringan + Rusak Berat) --}}
         <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 hover:bg-red-500 hover:shadow-xl hover:-translate-y-1 transition-all duration-500 ease-in-out group cursor-pointer">
             <div class="flex items-center justify-between mb-4">
                 <div class="p-3 bg-red-50 group-hover:bg-white/20 rounded-2xl transition-colors duration-500">
@@ -70,6 +74,18 @@
             </div>
             <h3 class="text-3xl font-black text-gray-800 group-hover:text-white transition-colors duration-500">{{ $alat_rusak }}</h3>
             <p class="text-sm text-gray-500 group-hover:text-red-100 mt-1 transition-colors duration-500">Butuh maintenance</p>
+        </div>
+
+        {{-- Card 5: Menunggu Verifikasi --}}
+        <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 hover:bg-blue-600 hover:shadow-xl hover:-translate-y-1 transition-all duration-500 ease-in-out group cursor-pointer">
+            <div class="flex items-center justify-between mb-4">
+                <div class="p-3 bg-blue-50 group-hover:bg-white/20 rounded-2xl transition-colors duration-500">
+                    <svg class="w-6 h-6 text-blue-500 group-hover:text-white transition-colors duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                </div>
+                <span class="text-xs font-bold text-gray-400 group-hover:text-blue-100 uppercase tracking-wider transition-colors duration-500">Pending</span>
+            </div>
+            <h3 class="text-3xl font-black text-gray-800 group-hover:text-white transition-colors duration-500">{{ $pending_peminjaman }}</h3>
+            <p class="text-sm text-gray-500 group-hover:text-blue-100 mt-1 transition-colors duration-500">Menunggu verifikasi</p>
         </div>
 
     </div>
@@ -146,8 +162,8 @@
             </div>
 
             <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm">
-                <h4 class="font-bold text-gray-800 mb-4">Penyimpanan Terpadu</h4>
-                <div class="space-y-4">
+                <h4 class="font-bold text-gray-800 mb-4">Ringkasan Sistem</h4>
+                <div class="space-y-3">
                     <div class="flex items-center justify-between p-3 bg-gray-50 rounded-2xl">
                         <span class="text-xs text-gray-500 font-medium">Total Rak Tersedia</span>
                         <span class="text-sm font-bold text-gray-800">{{ \App\Models\RakPenyimpanan::count() }} Rak</span>
@@ -155,6 +171,18 @@
                     <div class="flex items-center justify-between p-3 bg-gray-50 rounded-2xl">
                         <span class="text-xs text-gray-500 font-medium">Unit Operasional</span>
                         <span class="text-sm font-bold text-gray-800">{{ \App\Models\UnitLokasi::count() }} Lokasi</span>
+                    </div>
+                    <div class="flex items-center justify-between p-3 bg-blue-50 rounded-2xl">
+                        <span class="text-xs text-blue-600 font-medium">Total Peminjaman</span>
+                        <span class="text-sm font-bold text-blue-700">{{ $total_peminjaman }} Transaksi</span>
+                    </div>
+                    <div class="flex items-center justify-between p-3 bg-pln-cyan/10 rounded-2xl">
+                        <span class="text-xs text-pln-cyan font-medium">Katalog Alat</span>
+                        <span class="text-sm font-bold text-gray-800">{{ $total_peralatan }} Jenis</span>
+                    </div>
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-2xl">
+                        <span class="text-xs text-gray-500 font-medium">Total Pegawai</span>
+                        <span class="text-sm font-bold text-gray-800">{{ $total_user }} Orang</span>
                     </div>
                 </div>
             </div>
