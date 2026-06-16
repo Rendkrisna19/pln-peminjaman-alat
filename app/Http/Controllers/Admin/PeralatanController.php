@@ -58,7 +58,7 @@ class PeralatanController extends Controller
                 
                 \App\Models\ItemInventaris::create([
                     'peralatan_id' => $peralatan->id,
-                    'barcode_alat' => $barcode,
+                    'kode_barcode' => $barcode,
                     'status_ketersediaan' => 'Tersedia',
                     'kondisi' => 'Baik',
                 ]);
