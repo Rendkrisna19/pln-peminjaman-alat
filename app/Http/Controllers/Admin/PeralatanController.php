@@ -48,8 +48,24 @@ class PeralatanController extends Controller
             $validated['foto'] = $request->file('foto')->store('foto_peralatan', 'public');
         }
 
-        Peralatan::create($validated);
-        return redirect()->route('admin.peralatan.index')->with('success', 'Katalog Peralatan berhasil ditambahkan.');
+        $peralatan = Peralatan::create($validated);
+
+        // Auto generate item fisik berdasarkan total_stok
+        if ($peralatan->total_stok > 0) {
+            for ($i = 1; $i <= $peralatan->total_stok; $i++) {
+                // Generate barcode unik misal: PAND-{id_peralatan}-{urutan}-{random_string_2_char}
+                $barcode = 'PAND-' . str_pad($peralatan->id, 3, '0', STR_PAD_LEFT) . '-' . str_pad($i, 3, '0', STR_PAD_LEFT) . strtoupper(substr(uniqid(), -2));
+                
+                \App\Models\ItemInventaris::create([
+                    'peralatan_id' => $peralatan->id,
+                    'barcode_alat' => $barcode,
+                    'status_ketersediaan' => 'Tersedia',
+                    'kondisi' => 'Baik',
+                ]);
+            }
+        }
+
+        return redirect()->route('admin.peralatan.index')->with('success', 'Katalog Peralatan beserta item fisiknya berhasil ditambahkan.');
     }
 
     public function edit(Peralatan $peralatan)
@@ -82,10 +98,21 @@ class PeralatanController extends Controller
 
     public function destroy(Peralatan $peralatan)
     {
+        // Ambil semua ID item inventaris yang berelasi dengan peralatan ini
+        $itemIds = $peralatan->item_inventaris()->pluck('id');
+        
+        if ($itemIds->isNotEmpty()) {
+            // Hapus detail peminjaman (history) yang menggunakan item-item ini untuk menghindari error foreign key
+            \App\Models\DetailPeminjaman::whereIn('item_inventaris_id', $itemIds)->delete();
+            
+            // Hapus item inventaris (fisik)
+            $peralatan->item_inventaris()->delete();
+        }
+
         if ($peralatan->foto) {
             Storage::disk('public')->delete($peralatan->foto);
         }
         $peralatan->delete();
-        return redirect()->route('admin.peralatan.index')->with('success', 'Katalog Peralatan berhasil dihapus.');
+        return redirect()->route('admin.peralatan.index')->with('success', 'Katalog Peralatan beserta item fisik dan historynya berhasil dihapus paksa.');
     }
 }
