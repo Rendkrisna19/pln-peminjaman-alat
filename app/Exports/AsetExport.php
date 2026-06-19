@@ -66,7 +66,7 @@ class AsetExport implements FromQuery, WithHeadings, WithMapping, WithStyles, Sh
             $item->peralatan->rak->nama_rak ?? 'Tanpa Rak',
             $item->kondisi, // Ini akan mencetak: Baik, Rusak Ringan, atau Rusak Berat
             $item->status_ketersediaan,
-            Carbon::parse($item->tanggal_masuk)->format('d/m/Y')
+            Carbon::parse($item->created_at)->format('d/m/Y')
         ];
     }
 

@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\ItemInventarisController;
 use App\Http\Controllers\Admin\PeminjamanController;
 use App\Http\Controllers\Admin\TrackingController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\LaporanAsetController as AdminLaporanAset;
 
 
 
@@ -58,7 +59,14 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/peminjaman/{peminjaman}/pengembalian', [PeminjamanController::class, 'prosesPengembalian'])->name('peminjaman.pengembalian');
         Route::get('/tracking', [TrackingController::class, 'index'])->name('tracking.index');
         Route::get('/tracking/history/{item_inventaris_id}', [TrackingController::class, 'history'])->name('tracking.history');
+        Route::get('/tracking/pdf', [TrackingController::class, 'exportPdf'])->name('tracking.pdf');
+        Route::get('/tracking/excel', [TrackingController::class, 'exportExcel'])->name('tracking.excel');
         Route::resource('users', UserController::class);
+
+        // Laporan Kondisi Aset (PDF & Excel)
+        Route::get('/laporan-aset', [AdminLaporanAset::class, 'index'])->name('laporan-aset.index');
+        Route::get('/laporan-aset/pdf', [AdminLaporanAset::class, 'exportPdf'])->name('laporan-aset.pdf');
+        Route::get('/laporan-aset/excel', [AdminLaporanAset::class, 'exportExcel'])->name('laporan-aset.excel');
     });
 
     // Rute KHUSUS PEGAWAI / TEKNISI

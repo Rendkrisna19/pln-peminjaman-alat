@@ -85,6 +85,16 @@
                 @endif
             </div>
         </form>
+
+        <!-- Export Buttons -->
+        <div class="mt-5 pt-5 border-t-2 border-gray-100 flex flex-wrap gap-3">
+            <a target="_blank" href="{{ route('admin.tracking.pdf', request()->query()) }}" class="px-6 py-3 bg-red-600 text-white font-bold rounded-xl border-2 border-red-700 hover:bg-red-700 transition flex items-center gap-2 shadow-md">
+                <i class="fa-solid fa-file-pdf"></i> Download PDF
+            </a>
+            <a href="{{ route('admin.tracking.excel', request()->query()) }}" class="px-6 py-3 bg-[#107C41] text-white font-bold rounded-xl border-2 border-[#0e6b38] hover:bg-[#0e6b38] transition flex items-center gap-2 shadow-md">
+                <i class="fa-solid fa-file-excel"></i> Download Excel
+            </a>
+        </div>
     </div>
 
     <!-- Tabel Data Logging -->

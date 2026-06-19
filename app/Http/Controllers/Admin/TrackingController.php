@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\TrackingLog;
 use App\Models\ItemInventaris;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\TrackingExport;
 
 class TrackingController extends Controller
 {
@@ -59,5 +62,53 @@ class TrackingController extends Controller
                     ->get();
 
         return view('admin.tracking.history', compact('item', 'logs'));
+    }
+
+    public function exportPdf(Request $request)
+    {
+        $search = $request->search;
+        $filterDate = $request->filter_date;
+        $filterMonth = $request->filter_month;
+        $sortDirection = $request->sort_direction ?? 'desc';
+
+        $query = TrackingLog::with(['item_inventaris.peralatan', 'user', 'unit_lokasi']);
+
+        if ($search) {
+            $query->whereHas('item_inventaris', function ($q) use ($search) {
+                $q->where('kode_barcode', 'like', "%{$search}%")
+                  ->orWhereHas('peralatan', function ($subq) use ($search) {
+                      $subq->where('nama_alat', 'like', "%{$search}%");
+                  });
+            });
+        }
+
+        if ($filterDate) {
+            $query->whereDate('tanggal_waktu', $filterDate);
+        } elseif ($filterMonth) {
+            $year = date('Y', strtotime($filterMonth));
+            $month = date('m', strtotime($filterMonth));
+            $query->whereYear('tanggal_waktu', $year)
+                  ->whereMonth('tanggal_waktu', $month);
+        }
+
+        $data = $query->orderBy('tanggal_waktu', $sortDirection)->get();
+
+        $pdf = Pdf::loadView('admin.tracking.pdf', compact('data', 'search', 'filterDate', 'filterMonth'))
+                  ->setPaper('a4', 'landscape');
+
+        return $pdf->download('Tracking_Log_Alat_' . date('Ymd') . '.pdf');
+    }
+
+    public function exportExcel(Request $request)
+    {
+        return Excel::download(
+            new TrackingExport(
+                $request->search,
+                $request->filter_date,
+                $request->filter_month,
+                $request->sort_direction ?? 'desc'
+            ),
+            'Tracking_Log_Alat_' . date('Ymd') . '.xlsx'
+        );
     }
 }
