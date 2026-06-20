@@ -43,7 +43,7 @@
         <tr>
             <td>
                 <div class="perusahaan">PT PLN (Persero)</div>
-                <div class="unit">Unit Pelaksana (UP) Pandan</div>
+                <div class="unit">Unit pembangkit (UP) Pandan</div>
                 <div class="alamat">Sistem Informasi Manajemen Peminjaman & Monitoring Peralatan Kerja (E-Tools)</div>
             </td>
         </tr>

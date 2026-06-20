@@ -44,7 +44,7 @@
         <tr>
             <td style="border: none;">
                 <div class="perusahaan">PT PLN (Persero)</div>
-                <div class="unit">Unit Pelaksana (UP) Pandan</div>
+                <div class="unit">Unit pembangkit (UP) Pandan</div>
                 <div style="font-size: 9px; color: #666;">E-Tools Manajemen Peralatan Kerja</div>
             </td>
         </tr>
