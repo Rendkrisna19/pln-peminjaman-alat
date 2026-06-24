@@ -50,7 +50,16 @@ class ItemInventarisController extends Controller
             'status_ketersediaan' => 'required|in:Tersedia,Dipinjam,Diperbaiki',
         ]);
 
-        ItemInventaris::create($request->all());
+        $item = ItemInventaris::create($request->all());
+
+        // Sync parent Peralatan total_stok
+        $peralatan = $item->peralatan;
+        if ($peralatan) {
+            $peralatan->update([
+                'total_stok' => $peralatan->item_inventaris()->count()
+            ]);
+        }
+
         return redirect()->route('admin.item-inventaris.index')->with('success', 'Item Barcode berhasil ditambahkan.');
     }
     
@@ -65,6 +74,7 @@ class ItemInventarisController extends Controller
     public function update(Request $request, $id)
     {
         $item_inventaris = ItemInventaris::findOrFail($id);
+        $oldPeralatanId = $item_inventaris->peralatan_id;
 
         $request->validate([
             'peralatan_id' => 'required|exists:tbl_peralatan,id',
@@ -75,13 +85,40 @@ class ItemInventarisController extends Controller
         ]);
 
         $item_inventaris->update($request->all());
+
+        // Sync old and new Peralatan total_stok
+        $newPeralatanId = $request->peralatan_id;
+        
+        $oldPeralatan = Peralatan::find($oldPeralatanId);
+        if ($oldPeralatan) {
+            $oldPeralatan->update([
+                'total_stok' => $oldPeralatan->item_inventaris()->count()
+            ]);
+        }
+        
+        if ($newPeralatanId != $oldPeralatanId) {
+            $newPeralatan = Peralatan::find($newPeralatanId);
+            if ($newPeralatan) {
+                $newPeralatan->update([
+                    'total_stok' => $newPeralatan->item_inventaris()->count()
+                ]);
+            }
+        }
+
         return redirect()->route('admin.item-inventaris.index')->with('success', 'Item Barcode berhasil diperbarui.');
     }
 
     public function destroy($id)
     {
         $item_inventaris = ItemInventaris::findOrFail($id);
+        $peralatan = $item_inventaris->peralatan;
         $item_inventaris->delete();
+
+        if ($peralatan) {
+            $peralatan->update([
+                'total_stok' => $peralatan->item_inventaris()->count()
+            ]);
+        }
         
         return redirect()->route('admin.item-inventaris.index')->with('success', 'Item Barcode berhasil dihapus.');
     }

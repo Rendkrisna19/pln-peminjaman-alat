@@ -56,6 +56,10 @@ class PeralatanController extends Controller
                 // Generate barcode unik misal: PAND-{id_peralatan}-{urutan}-{random_string_2_char}
                 $barcode = 'PAND-' . str_pad($peralatan->id, 3, '0', STR_PAD_LEFT) . '-' . str_pad($i, 3, '0', STR_PAD_LEFT) . strtoupper(substr(uniqid(), -2));
                 
+                while (\App\Models\ItemInventaris::where('kode_barcode', $barcode)->exists()) {
+                    $barcode = 'PAND-' . str_pad($peralatan->id, 3, '0', STR_PAD_LEFT) . '-' . str_pad($i, 3, '0', STR_PAD_LEFT) . strtoupper(substr(uniqid(), -2));
+                }
+
                 \App\Models\ItemInventaris::create([
                     'peralatan_id' => $peralatan->id,
                     'kode_barcode' => $barcode,
@@ -84,16 +88,84 @@ class PeralatanController extends Controller
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
-        if ($request->hasFile('foto')) {
-            // Hapus foto lama jika ada
-            if ($peralatan->foto) {
-                Storage::disk('public')->delete($peralatan->foto);
-            }
-            $validated['foto'] = $request->file('foto')->store('foto_peralatan', 'public');
-        }
+        \Illuminate\Support\Facades\DB::beginTransaction();
+        try {
+            $newTotalStok = (int) $validated['total_stok'];
+            $currentItemsCount = $peralatan->item_inventaris()->count();
 
-        $peralatan->update($validated);
-        return redirect()->route('admin.peralatan.index')->with('success', 'Katalog Peralatan berhasil diperbarui.');
+            if ($newTotalStok < $currentItemsCount) {
+                $diff = $currentItemsCount - $newTotalStok;
+                
+                // Cari item yang berstatus 'Tersedia' untuk dihapus, urutkan dari yang terbaru (id desc)
+                $availableItems = $peralatan->item_inventaris()
+                    ->where('status_ketersediaan', 'Tersedia')
+                    ->orderBy('id', 'desc')
+                    ->limit($diff)
+                    ->get();
+
+                if ($availableItems->count() < $diff) {
+                    \Illuminate\Support\Facades\DB::rollBack();
+                    return redirect()->back()
+                        ->withInput()
+                        ->with('error', "Stok tidak dapat dikurangi menjadi {$newTotalStok} karena ada unit yang sedang Dipinjam atau Diperbaiki. Hanya ada {$availableItems->count()} unit berstatus Tersedia yang dapat dikurangi.");
+                }
+
+                // Hapus item-item tersebut beserta history detail peminjamannya jika ada
+                foreach ($availableItems as $item) {
+                    \App\Models\DetailPeminjaman::where('item_inventaris_id', $item->id)->delete();
+                    $item->delete();
+                }
+            } elseif ($newTotalStok > $currentItemsCount) {
+                $diff = $newTotalStok - $currentItemsCount;
+
+                // Cari sequence terakhir yang terdaftar dari barcode yang ada
+                $existingBarcodes = $peralatan->item_inventaris()->pluck('kode_barcode');
+                $maxSequence = 0;
+                foreach ($existingBarcodes as $bc) {
+                    $parts = explode('-', $bc);
+                    if (count($parts) >= 3) {
+                        $seqVal = (int) $parts[2];
+                        if ($seqVal > $maxSequence) {
+                            $maxSequence = $seqVal;
+                        }
+                    }
+                }
+
+                for ($i = 1; $i <= $diff; $i++) {
+                    $sequence = $maxSequence + $i;
+                    $barcode = 'PAND-' . str_pad($peralatan->id, 3, '0', STR_PAD_LEFT) . '-' . str_pad($sequence, 3, '0', STR_PAD_LEFT) . strtoupper(substr(uniqid(), -2));
+                    
+                    while (\App\Models\ItemInventaris::where('kode_barcode', $barcode)->exists()) {
+                        $barcode = 'PAND-' . str_pad($peralatan->id, 3, '0', STR_PAD_LEFT) . '-' . str_pad($sequence, 3, '0', STR_PAD_LEFT) . strtoupper(substr(uniqid(), -2));
+                    }
+
+                    \App\Models\ItemInventaris::create([
+                        'peralatan_id' => $peralatan->id,
+                        'kode_barcode' => $barcode,
+                        'status_ketersediaan' => 'Tersedia',
+                        'kondisi' => 'Baik',
+                    ]);
+                }
+            }
+
+            if ($request->hasFile('foto')) {
+                // Hapus foto lama jika ada
+                if ($peralatan->foto) {
+                    Storage::disk('public')->delete($peralatan->foto);
+                }
+                $validated['foto'] = $request->file('foto')->store('foto_peralatan', 'public');
+            }
+
+            $peralatan->update($validated);
+
+            \Illuminate\Support\Facades\DB::commit();
+            return redirect()->route('admin.peralatan.index')->with('success', 'Katalog Peralatan berhasil diperbarui.');
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\DB::rollBack();
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Terjadi kesalahan saat memperbarui data: ' . $e->getMessage());
+        }
     }
 
     public function destroy(Peralatan $peralatan)
