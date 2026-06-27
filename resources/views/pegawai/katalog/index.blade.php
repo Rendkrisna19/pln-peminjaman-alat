@@ -127,7 +127,7 @@
                 
                 <div class="mt-auto">
                     @if($item->stok_tersedia > 0)
-                    <form action="{{ route('pegawai.katalog.form', $item->id) }}" method="GET" class="flex items-end gap-3 pt-4 border-t border-gray-100">
+                    <form action="{{ route('pegawai.katalog.form', $item->id) }}" method="GET" class="flex items-end gap-3 pt-4 border-t border-gray-100" novalidate onsubmit="return checkQuantity(event, this, {{ $item->stok_tersedia }}, '{{ $item->nama_alat }}')">
                         <div class="w-20">
                             <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">Set Qty</label>
                             <input type="number" name="qty" value="1" min="1" max="{{ $item->stok_tersedia }}" class="w-full px-2 py-2.5 rounded-xl border-2 border-gray-200 focus:border-pln-cyan focus:ring-0 text-center text-sm font-bold transition hover:border-gray-300 shadow-sm">
@@ -176,4 +176,50 @@
         100% { transform: translateX(200%); }
     }
 </style>
+
+<script>
+    function checkQuantity(event, form, maxQty, namaAlat) {
+        let qtyInput = form.querySelector('input[name="qty"]');
+        let qty = parseInt(qtyInput.value);
+
+        if (isNaN(qty) || qty < 1) {
+            event.preventDefault();
+            Swal.fire({
+                icon: 'warning',
+                title: 'Jumlah Tidak Valid!',
+                text: 'Jumlah pinjam minimal adalah 1.',
+                confirmButtonColor: '#00A2E9',
+                confirmButtonText: 'Mengerti',
+                background: '#ffffff',
+                customClass: {
+                    title: 'text-gray-800 font-extrabold',
+                    popup: 'rounded-2xl shadow-xl border border-gray-100',
+                    confirmButton: 'rounded-xl font-bold px-6 py-2.5'
+                }
+            });
+            return false;
+        }
+
+        if (qty > maxQty) {
+            event.preventDefault();
+            Swal.fire({
+                icon: 'error',
+                title: 'Stok Tidak Mencukupi!',
+                html: 'Anda mencoba meminjam <b>' + qty + '</b> unit <b>' + namaAlat + '</b>,<br>tapi stok yang tersedia hanya <b>' + maxQty + '</b> unit.',
+                confirmButtonColor: '#e3342f',
+                confirmButtonText: 'Sesuaikan Jumlah',
+                background: '#ffffff',
+                customClass: {
+                    title: 'text-gray-800 font-extrabold',
+                    htmlContainer: 'text-gray-600',
+                    popup: 'rounded-2xl shadow-xl border border-red-100',
+                    confirmButton: 'rounded-xl font-bold px-6 py-2.5 shadow-sm'
+                }
+            });
+            return false;
+        }
+
+        return true;
+    }
+</script>
 @endsection
