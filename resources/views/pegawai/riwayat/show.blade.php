@@ -116,7 +116,7 @@
                     <table class="w-full text-left">
                         <thead class="bg-white text-gray-400 text-xs uppercase font-extrabold tracking-wider border-b-2 border-gray-100">
                             <tr>
-                                <th class="px-6 py-4">Informasi Alat & Barcode</th>
+                                <th class="px-6 py-4">Informasi Alat & Kode Barang</th>
                                 <th class="px-6 py-4">Kondisi Keluar</th>
                                 @if($peminjaman->status_peminjaman == 'Dikembalikan')
                                 <th class="px-6 py-4">Kondisi Kembali</th>
@@ -129,7 +129,7 @@
                                 <td class="px-6 py-4">
                                     <p class="font-extrabold text-gray-800 text-sm mb-1">{{ $detail->item_inventaris->peralatan->nama_alat }}</p>
                                     <div class="flex items-center gap-2">
-                                        <i class="fa-solid fa-barcode text-gray-400 text-xs"></i>
+                                        <i class="fa-solid fa-hashtag text-gray-400 text-xs"></i>
                                         <span class="font-mono font-bold text-pln-cyan text-xs bg-blue-50 px-2 py-0.5 rounded border border-blue-100">{{ $detail->item_inventaris->kode_barcode }}</span>
                                     </div>
                                 </td>
@@ -160,7 +160,7 @@
                 <div class="p-5 bg-blue-50/50 border-t-2 border-blue-100 text-blue-700 flex items-start gap-3">
                     <i class="fa-solid fa-circle-info text-xl mt-0.5"></i>
                     <p class="text-sm font-medium leading-relaxed">
-                        Jika status permohonan Anda disetujui, silakan temui Admin di Gudang untuk pengambilan fisik alat sesuai nomor barcode di atas.
+                        Jika status permohonan Anda disetujui, silakan temui Admin di Gudang untuk pengambilan fisik alat sesuai kode barang di atas.
                     </p>
                 </div>
                 @endif

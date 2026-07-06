@@ -59,7 +59,7 @@
         <thead>
             <tr>
                 <th width="5%">No</th>
-                <th width="15%">Kode Barcode</th>
+                <th width="15%">Kode Barang</th>
                 <th width="35%">Nama Alat & Spesifikasi</th>
                 <th width="15%">Lokasi Rak</th>
                 <th width="15%">Kondisi</th>

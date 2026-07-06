@@ -67,7 +67,7 @@
             <tr>
                 <th width="3%">No</th>
                 <th width="12%">Tanggal & Waktu</th>
-                <th width="13%">Barcode</th>
+                <th width="13%">Kode Barang</th>
                 <th width="20%">Nama Alat</th>
                 <th width="30%">Aktivitas</th>
                 <th width="12%">Lokasi</th>

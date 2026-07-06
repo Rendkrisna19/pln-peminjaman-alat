@@ -6,15 +6,15 @@
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
             <h1 class="text-2xl font-bold text-gray-800"><i class="fa-solid fa-map-location-dot text-pln-cyan mr-2"></i> Jejak Lokasi Alat</h1>
-            <p class="text-sm text-gray-500 mt-1">Lacak riwayat pergerakan dan peminjaman alat fisik berdasarkan Barcode.</p>
+            <p class="text-sm text-gray-500 mt-1">Lacak riwayat pergerakan dan peminjaman alat fisik berdasarkan Kode Barang.</p>
         </div>
     </div>
 
     <div class="bg-white p-6 rounded-3xl border-2 border-gray-200 shadow-sm">
         <form action="{{ route('supervisor.jejak.index') }}" method="GET" class="flex flex-col sm:flex-row gap-3">
             <div class="relative flex-1">
-                <i class="fa-solid fa-barcode absolute left-4 top-3.5 text-gray-400 text-lg"></i>
-                <input type="text" name="search" value="{{ $search }}" placeholder="Scan atau ketik Kode Barcode (cth: PAND-001)..." 
+                <i class="fa-solid fa-hashtag absolute left-4 top-3.5 text-gray-400 text-lg"></i>
+                <input type="text" name="search" value="{{ $search }}" placeholder="Ketik Kode Barang (cth: PAND-001)..." 
                        class="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-gray-200 focus:border-pln-cyan focus:ring-0 text-gray-800 font-bold transition">
             </div>
             <button type="submit" class="px-8 py-3 bg-pln-cyan text-white font-bold rounded-xl shadow-lg shadow-pln-cyan/30 hover:bg-[#008Cca] transition transform hover:-translate-y-0.5">
@@ -29,7 +29,7 @@
             <div>
                 <div class="flex justify-between items-start mb-4">
                     <span class="px-3 py-1 bg-gray-100 border border-gray-200 rounded-lg text-xs font-mono font-bold text-gray-800">
-                        <i class="fa-solid fa-barcode text-gray-400 mr-1"></i> {{ $item->kode_barcode }}
+                        <i class="fa-solid fa-hashtag text-gray-400 mr-1"></i> {{ $item->kode_barcode }}
                     </span>
                     @if($item->status_ketersediaan == 'Tersedia')
                         <span class="w-3 h-3 bg-green-500 rounded-full shadow-[0_0_8px_rgba(34,197,94,0.6)] animate-pulse"></span>

@@ -70,7 +70,7 @@
                                 <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-pln-cyan"></div>
                                 
                                 <div class="flex items-center gap-2 mb-3">
-                                    <i class="fa-solid fa-barcode text-gray-400"></i>
+                                    <i class="fa-solid fa-hashtag text-gray-400"></i>
                                     <span class="text-xs font-mono font-bold text-pln-cyan bg-blue-50 px-2 py-1 rounded shadow-sm border border-blue-100">
                                         {{ $detail->item_inventaris->kode_barcode }}
                                     </span>

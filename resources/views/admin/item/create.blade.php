@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Tambah Barcode Fisik')
+@section('title', 'Tambah Kode Barang Fisik')
 
 @section('content')
 <div class="w-full md:max-w-4xl mx-auto space-y-6">
@@ -8,7 +8,7 @@
         <a href="{{ route('admin.item-inventaris.index') }}" class="p-2.5 bg-white rounded-xl shadow-sm border-2 border-gray-200 hover:bg-gray-50 text-gray-600 transition">
             <i class="fa-solid fa-arrow-left"></i>
         </a>
-        <h1 class="text-2xl font-bold text-gray-800">Tambah Data Item (Barcode)</h1>
+        <h1 class="text-2xl font-bold text-gray-800">Tambah Data Item (Kode Barang)</h1>
     </div>
 
     <div class="bg-white rounded-2xl shadow-sm border-2 border-gray-200 p-6 sm:p-8">
@@ -29,9 +29,9 @@
             </div>
 
             <div>
-                <label class="block text-sm font-bold text-gray-700 mb-2">Kode Barcode Fisik <span class="text-red-500">*</span></label>
+                <label class="block text-sm font-bold text-gray-700 mb-2">Kode Barang Fisik <span class="text-red-500">*</span></label>
                 <div class="relative">
-                    <i class="fa-solid fa-barcode absolute left-4 top-3.5 text-gray-400"></i>
+                    <i class="fa-solid fa-hashtag absolute left-4 top-3.5 text-gray-400"></i>
                     <input type="text" name="kode_barcode" value="{{ old('kode_barcode') }}" required placeholder="Contoh: PAND-001-001" 
                         class="w-full pl-11 pr-4 py-3 rounded-xl border-2 border-gray-300 focus:border-pln-cyan focus:ring-0 transition-colors font-mono font-bold text-pln-cyan">
                 </div>

@@ -47,7 +47,7 @@
             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                 <i class="fa-solid fa-magnifying-glass text-gray-400 group-focus-within:text-pln-cyan transition-colors"></i>
             </div>
-            <input type="text" x-model.debounce.500ms="search" placeholder="Cari Kode Barcode atau Nama Alat..." 
+            <input type="text" x-model.debounce.500ms="search" placeholder="Cari Kode Barang atau Nama Alat..." 
                 class="w-full pl-12 pr-4 py-3.5 rounded-xl border-2 border-gray-100 focus:border-pln-cyan focus:ring-0 text-sm font-bold text-gray-700 bg-gray-50/50 focus:bg-white shadow-inner transition-all">
         </div>
 

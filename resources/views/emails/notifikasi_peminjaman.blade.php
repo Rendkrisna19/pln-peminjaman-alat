@@ -75,7 +75,7 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Kode Barcode</th>
+                        <th>Kode Barang</th>
                         <th>Nama Alat</th>
                     </tr>
                 </thead>

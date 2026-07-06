@@ -117,7 +117,7 @@
                                     @foreach($aktif->detail_peminjaman as $detail)
                                         <div class="flex items-center gap-3 bg-gray-50/80 hover:bg-white p-3 rounded-xl border border-gray-100 group-hover:border-blue-100 transition-colors">
                                             <div class="w-10 h-10 rounded-lg bg-white border border-gray-200 flex items-center justify-center text-gray-400 shadow-sm shrink-0">
-                                                <i class="fa-solid fa-barcode"></i>
+                                                <i class="fa-solid fa-hashtag"></i>
                                             </div>
                                             <div class="min-w-0">
                                                 <p class="text-xs font-mono font-bold text-pln-cyan truncate">{{ $detail->item_inventaris->kode_barcode ?? '-' }}</p>

@@ -74,7 +74,7 @@
                 <th width="10%">Tanggal</th>
                 <th width="15%">Peminjam</th>
                 <th width="15%">Lokasi Pekerjaan</th>
-                <th width="35%">Rincian Alat & Barcode</th>
+                <th width="35%">Rincian Alat & Kode Barang</th>
                 <th width="10%">Status</th>
             </tr>
         </thead>

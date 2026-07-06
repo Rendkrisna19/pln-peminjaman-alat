@@ -33,10 +33,10 @@
 
                 <div class="bg-gray-900/40 backdrop-blur-sm rounded-[22px] p-6 h-full relative z-10 border border-white/10">
                     
-                    <!-- Header Card & Barcode -->
+                    <!-- Header Card & Kode Barang -->
                     <div class="flex justify-between items-start mb-6">
                         <div class="w-12 h-12 bg-white/10 backdrop-blur-md rounded-xl flex items-center justify-center border border-white/20 shadow-inner">
-                            <i class="fa-solid fa-barcode text-pln-yellow text-xl"></i>
+                            <i class="fa-solid fa-hashtag text-pln-yellow text-xl"></i>
                         </div>
                         <span class="px-4 py-1.5 bg-white/10 border border-white/20 rounded-full text-xs font-extrabold text-white tracking-widest uppercase shadow-sm">
                             <i class="fa-solid fa-qrcode mr-1"></i> {{ $item->kode_barcode }}

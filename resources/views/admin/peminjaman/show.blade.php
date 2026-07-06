@@ -132,7 +132,7 @@
                     <table class="w-full text-left">
                         <thead class="text-xs uppercase text-gray-400 font-bold border-b border-gray-100 bg-white">
                             <tr>
-                                <th class="px-4 py-3">Barcode Fisik</th>
+                                <th class="px-4 py-3">Kode Barang</th>
                                 <th class="px-4 py-3">Nama Alat</th>
                                 <th class="px-4 py-3 text-center">Kondisi Keluar</th>
                                 @if(in_array($peminjaman->status_peminjaman, ['Sedang Dipinjam', 'Dikembalikan']))

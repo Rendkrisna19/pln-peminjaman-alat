@@ -25,7 +25,7 @@
             <!-- Pencarian Teks -->
             <div class="relative flex-1">
                 <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-gray-400"></i>
-                <input type="text" name="search" value="{{ $search }}" placeholder="Cari Barcode atau Nama Alat..." 
+                <input type="text" name="search" value="{{ $search }}" placeholder="Cari Kode Barang atau Nama Alat..." 
                     class="w-full pl-11 pr-4 py-3 rounded-xl border-2 border-gray-100 focus:border-pln-cyan focus:ring-0 text-sm font-bold text-gray-700 shadow-sm transition hover:border-gray-200">
             </div>
 
@@ -105,7 +105,7 @@
                 <thead class="bg-pln-cyan text-white text-xs uppercase font-extrabold tracking-wider border-b-2 border-blue-600">
                     <tr>
                         <th class="px-6 py-4">Waktu</th>
-                        <th class="px-6 py-4">Fisik (Barcode) & Alat</th>
+                        <th class="px-6 py-4">Fisik (Kode Barang) & Alat</th>
                         <th class="px-6 py-4">Aktivitas & Lokasi</th>
                         <th class="px-6 py-4">Pelaku / Penanggung Jawab</th>
                         <th class="px-6 py-4 text-center">Jejak Detail</th>
@@ -124,7 +124,7 @@
                         <!-- Fisik Alat -->
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-2 mb-1">
-                                <i class="fa-solid fa-barcode text-gray-400 text-xs"></i>
+                                <i class="fa-solid fa-hashtag text-gray-400 text-xs"></i>
                                 <span class="font-mono text-sm text-pln-cyan font-extrabold bg-blue-50 px-2 py-0.5 rounded border border-blue-100">
                                     {{ $log->item_inventaris->kode_barcode ?? 'Dihapus' }}
                                 </span>

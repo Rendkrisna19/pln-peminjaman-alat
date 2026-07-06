@@ -19,7 +19,7 @@
                 </div>
                 <div class="relative z-10">
                     <span class="px-3 py-1 bg-white/10 border border-white/20 rounded-lg text-xs font-mono font-bold text-pln-yellow mb-4 inline-block">
-                        <i class="fa-solid fa-barcode mr-1"></i> {{ $item->kode_barcode }}
+                        <i class="fa-solid fa-hashtag mr-1"></i> {{ $item->kode_barcode }}
                     </span>
                     <h2 class="text-2xl font-black mb-1">{{ $item->peralatan->nama_alat ?? 'Nama Alat' }}</h2>
                     <p class="text-sm text-gray-400 font-medium mb-6">{{ $item->peralatan->spesifikasi ?? 'Tanpa Spesifikasi' }}</p>

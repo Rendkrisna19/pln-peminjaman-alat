@@ -45,7 +45,7 @@
         <form action="{{ route('admin.laporan-aset.index') }}" method="GET" class="flex flex-col sm:flex-row gap-3 w-full lg:w-auto flex-1">
             <div class="relative w-full sm:w-64">
                 <i class="fa-solid fa-magnifying-glass absolute left-4 top-3 text-gray-400"></i>
-                <input type="text" name="search" value="{{ $search }}" placeholder="Cari barcode / nama alat..." class="w-full pl-11 pr-4 py-2.5 rounded-xl border-2 border-gray-100 focus:border-pln-cyan focus:ring-0 text-sm font-bold">
+                <input type="text" name="search" value="{{ $search }}" placeholder="Cari kode barang / nama alat..." class="w-full pl-11 pr-4 py-2.5 rounded-xl border-2 border-gray-100 focus:border-pln-cyan focus:ring-0 text-sm font-bold">
             </div>
             <select name="kondisi" class="w-full sm:w-48 px-4 py-2.5 rounded-xl border-2 border-gray-100 focus:border-pln-cyan focus:ring-0 text-sm font-bold text-gray-700">
                 <option value="">Semua Kondisi</option>
@@ -71,7 +71,7 @@
             <table class="w-full text-left">
                 <thead class="bg-gray-50 border-b-2 border-gray-100 text-gray-500 text-xs uppercase font-bold tracking-wider">
                     <tr>
-                        <th class="px-6 py-4">KODE BARCODE</th>
+                        <th class="px-6 py-4">KODE BARANG</th>
                         <th class="px-6 py-4">NAMA ALAT</th>
                         <th class="px-6 py-4">LOKASI RAK</th>
                         <th class="px-6 py-4 text-center">KONDISI FISIK</th>

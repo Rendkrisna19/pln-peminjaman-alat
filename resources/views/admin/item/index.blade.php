@@ -19,11 +19,11 @@
 <div class="w-full space-y-6">
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-            <h1 class="text-2xl font-bold text-gray-800"><i class="fa-solid fa-barcode text-pln-cyan mr-2"></i> Data Item Fisik (Barcode)</h1>
-            <p class="text-sm text-gray-500 mt-1">Kelola data fisik setiap unit alat berdasarkan Barcode untuk keperluan tracking.</p>
+            <h1 class="text-2xl font-bold text-gray-800"><i class="fa-solid fa-hashtag text-pln-cyan mr-2"></i> Data Item Fisik (Kode Barang)</h1>
+            <p class="text-sm text-gray-500 mt-1">Kelola data fisik setiap unit alat berdasarkan Kode Barang untuk keperluan tracking.</p>
         </div>
         <a href="{{ route('admin.item-inventaris.create') }}" class="px-5 py-2.5 bg-pln-cyan text-white font-semibold rounded-xl shadow-md hover:bg-[#008Cca] transition flex items-center gap-2 border-2 border-[#008Cca]">
-            <i class="fa-solid fa-plus"></i> Tambah Barcode
+            <i class="fa-solid fa-plus"></i> Tambah Kode Barang
         </a>
     </div>
 
@@ -34,7 +34,7 @@
 
             <div class="flex-1 relative">
                 <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-gray-400"></i>
-                <input type="text" name="search" value="{{ $search }}" placeholder="Cari Barcode (cth: PAND-001) atau Nama Alat..." 
+                <input type="text" name="search" value="{{ $search }}" placeholder="Cari Kode Barang (cth: PAND-001) atau Nama Alat..." 
                     class="w-full pl-11 pr-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-pln-cyan focus:ring-0 text-sm transition-colors font-medium">
             </div>
             
@@ -65,7 +65,7 @@
                     <tr>
                         <th class="px-6 py-4 border-r border-white/20">
                             <a href="{{ sortUrl('kode_barcode', $sortField, $sortDirection) }}" class="flex items-center hover:text-pln-yellow transition group">
-                                KODE BARCODE {!! sortIcon('kode_barcode', $sortField, $sortDirection) !!}
+                                KODE BARANG {!! sortIcon('kode_barcode', $sortField, $sortDirection) !!}
                             </a>
                         </th>
                         <th class="px-6 py-4 border-r border-white/20">Nama Induk Alat</th>
@@ -128,8 +128,8 @@
                     @empty
                     <tr>
                         <td colspan="5" class="px-6 py-12 text-center text-gray-400 italic">
-                            <i class="fa-solid fa-barcode text-4xl mb-3 block opacity-50"></i>
-                            Data barcode/item fisik belum ada.
+                            <i class="fa-solid fa-hashtag text-4xl mb-3 block opacity-50"></i>
+                            Data kode barang/item fisik belum ada.
                         </td>
                     </tr>
                     @endforelse

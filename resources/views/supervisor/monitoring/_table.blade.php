@@ -9,7 +9,7 @@
             <tr>
                 <th class="px-6 py-4">
                     <a href="{{ request()->fullUrlWithQuery(['sort_field' => 'kode_barcode', 'sort_direction' => ($sortField == 'kode_barcode' && $sortDirection == 'asc') ? 'desc' : 'asc']) }}" class="ajax-sort flex items-center hover:text-blue-200 transition-colors group w-max">
-                        KODE BARCODE
+                        KODE BARANG
                         @if($sortField == 'kode_barcode')
                             {!! $sortDirection == 'asc' ? '<i class="fa-solid fa-sort-up ml-2 text-white"></i>' : '<i class="fa-solid fa-sort-down ml-2 text-white"></i>' !!}
                         @else
@@ -37,7 +37,7 @@
             <tr class="hover:bg-blue-50/40 transition-colors group">
                 <td class="px-6 py-4">
                     <div class="flex items-center gap-2">
-                        <i class="fa-solid fa-barcode text-gray-400 text-xs"></i>
+                        <i class="fa-solid fa-hashtag text-gray-400 text-xs"></i>
                         <span class="inline-block px-2.5 py-1 bg-blue-50 border border-blue-100 text-pln-cyan rounded text-xs font-mono font-bold shadow-sm">
                             {{ $item->kode_barcode }}
                         </span>
