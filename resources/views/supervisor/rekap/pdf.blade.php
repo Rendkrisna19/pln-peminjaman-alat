@@ -66,6 +66,24 @@
         @if($status) | Status: {{ $status }} @endif
     </div>
 
+    <!-- Informasi Stok Barang -->
+    <table style="width: 100%; margin-bottom: 20px; border-collapse: collapse;">
+        <tr>
+            <td style="width: 33%; padding: 10px; border: 1px solid #bdc3c7; text-align: center; background-color: #f8fafc;">
+                <span style="font-size: 10px; color: #64748b; font-weight: bold; text-transform: uppercase;">Total Barang Keseluruhan</span><br>
+                <span style="font-size: 16px; color: #0f172a; font-weight: bold;">{{ $stats['total_aset'] }} Unit</span>
+            </td>
+            <td style="width: 33%; padding: 10px; border: 1px solid #bdc3c7; text-align: center; background-color: #f0fdf4;">
+                <span style="font-size: 10px; color: #166534; font-weight: bold; text-transform: uppercase;">Total Stok Tersedia</span><br>
+                <span style="font-size: 16px; color: #15803d; font-weight: bold;">{{ $stats['tersedia'] }} Unit</span>
+            </td>
+            <td style="width: 33%; padding: 10px; border: 1px solid #bdc3c7; text-align: center; background-color: #fefce8;">
+                <span style="font-size: 10px; color: #854d0e; font-weight: bold; text-transform: uppercase;">Total Barang Dipinjam</span><br>
+                <span style="font-size: 16px; color: #a16207; font-weight: bold;">{{ $stats['dipinjam'] }} Unit</span>
+            </td>
+        </tr>
+    </table>
+
     <table class="data-table">
         <thead>
             <tr>

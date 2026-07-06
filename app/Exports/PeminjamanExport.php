@@ -3,28 +3,25 @@
 namespace App\Exports;
 
 use App\Models\Peminjaman;
-use Maatwebsite\Excel\Concerns\FromQuery;
-use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\WithMapping;
-use Maatwebsite\Excel\Concerns\WithStyles;
+use Illuminate\Contracts\View\View;
+use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
-use PhpOffice\PhpSpreadsheet\Style\Fill;
-use PhpOffice\PhpSpreadsheet\Style\Color;
-use PhpOffice\PhpSpreadsheet\Style\Border;
 
-class PeminjamanExport implements FromQuery, WithHeadings, WithMapping, WithStyles, ShouldAutoSize
+class PeminjamanExport implements FromView, ShouldAutoSize, WithStyles
 {
-    protected $startDate, $endDate, $status;
+    protected $startDate, $endDate, $status, $stats;
 
-    public function __construct($startDate, $endDate, $status)
+    public function __construct($startDate, $endDate, $status, $stats)
     {
         $this->startDate = $startDate;
         $this->endDate = $endDate;
         $this->status = $status;
+        $this->stats = $stats;
     }
 
-    public function query()
+    public function view(): View
     {
         $query = Peminjaman::with(['user', 'unit_tujuan', 'detail_peminjaman.item_inventaris.peralatan']);
 
@@ -35,59 +32,21 @@ class PeminjamanExport implements FromQuery, WithHeadings, WithMapping, WithStyl
             $query->where('status_peminjaman', $this->status);
         }
 
-        return $query->orderBy('tanggal_pengajuan', 'desc');
+        $data = $query->orderBy('tanggal_pengajuan', 'desc')->get();
+
+        return view('supervisor.rekap.excel', [
+            'data' => $data,
+            'startDate' => $this->startDate,
+            'endDate' => $this->endDate,
+            'status' => $this->status,
+            'stats' => $this->stats
+        ]);
     }
 
-    // Header Kolom di Excel
-    public function headings(): array
-    {
-        return [
-            'NO. TRANSAKSI',
-            'TANGGAL PENGAJUAN',
-            'NAMA PEMINJAM',
-            'LOKASI PEKERJAAN (UNIT)',
-            'ALAT YANG DIPINJAM (BARCODE)',
-            'ESTIMASI KEMBALI',
-            'STATUS SAAT INI',
-            'KETERANGAN / URGENSI'
-        ];
-    }
-
-    // Mapping isi data baris per baris
-    public function map($peminjaman): array
-    {
-        // Menggabungkan semua nama alat dan barcode ke dalam satu sel teks, dipisah koma
-        $detailAlat = $peminjaman->detail_peminjaman->map(function($detail) {
-            return $detail->item_inventaris->peralatan->nama_alat . ' [' . $detail->item_inventaris->kode_barcode . ']';
-        })->implode(', ');
-
-        return [
-            $peminjaman->kode_peminjaman,
-            \Carbon\Carbon::parse($peminjaman->tanggal_pengajuan)->format('d/m/Y H:i'),
-            $peminjaman->user->nama_lengkap ?? 'User Tidak Diketahui',
-            $peminjaman->unit_tujuan->nama_unit ?? '-',
-            $detailAlat,
-            \Carbon\Carbon::parse($peminjaman->estimasi_kembali)->format('d/m/Y H:i'),
-            $peminjaman->status_peminjaman,
-            $peminjaman->keterangan_pekerjaan
-        ];
-    }
-
-    // Styling khusus untuk Excel (Warna Biru PLN untuk Header)
     public function styles(Worksheet $sheet)
     {
         return [
-            // Style untuk Baris Pertama (Header)
-            1 => [
-                'font' => [
-                    'bold' => true, 
-                    'color' => ['argb' => Color::COLOR_WHITE] // Teks Putih
-                ],
-                'fill' => [
-                    'fillType' => Fill::FILL_SOLID,
-                    'startColor' => ['argb' => 'FF00A2E9'] // Kode Warna Biru PLN (#00A2E9) dengan Opacity Full (FF)
-                ],
-            ],
+            // The styling is mostly handled by the inline styles in the blade view.
         ];
     }
 }

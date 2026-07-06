@@ -49,6 +49,30 @@
         </div>
     </div>
 
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 mt-4">
+        <div class="bg-white p-5 rounded-3xl border-2 border-blue-100 shadow-sm flex items-center gap-4">
+            <div class="w-12 h-12 bg-blue-50 text-pln-cyan rounded-2xl flex items-center justify-center text-xl font-bold border border-blue-100 shrink-0"><i class="fa-solid fa-boxes-stacked"></i></div>
+            <div>
+                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Total Barang Keseluruhan</p>
+                <h3 class="text-2xl font-black text-gray-800">{{ $stats['total_aset'] }}</h3>
+            </div>
+        </div>
+        <div class="bg-white p-5 rounded-3xl border-2 border-green-100 shadow-sm flex items-center gap-4">
+            <div class="w-12 h-12 bg-green-50 text-green-600 rounded-2xl flex items-center justify-center text-xl font-bold border border-green-100 shrink-0"><i class="fa-solid fa-check-circle"></i></div>
+            <div>
+                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Total Stok Tersedia</p>
+                <h3 class="text-2xl font-black text-green-600">{{ $stats['tersedia'] }}</h3>
+            </div>
+        </div>
+        <div class="bg-white p-5 rounded-3xl border-2 border-yellow-100 shadow-sm flex items-center gap-4">
+            <div class="w-12 h-12 bg-yellow-50 text-yellow-600 rounded-2xl flex items-center justify-center text-xl font-bold border border-yellow-200 shrink-0"><i class="fa-solid fa-hand-holding-hand"></i></div>
+            <div>
+                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Total Barang Dipinjam</p>
+                <h3 class="text-2xl font-black text-yellow-600">{{ $stats['dipinjam'] }}</h3>
+            </div>
+        </div>
+    </div>
+
     <div class="bg-white rounded-3xl border-2 border-gray-200 overflow-hidden shadow-sm">
         <div class="overflow-x-auto">
             <table class="w-full text-left">
