@@ -11,14 +11,13 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class PeminjamanExport implements FromView, ShouldAutoSize, WithStyles
 {
-    protected $startDate, $endDate, $status, $stats;
+    protected $startDate, $endDate, $status;
 
-    public function __construct($startDate, $endDate, $status, $stats)
+    public function __construct($startDate, $endDate, $status)
     {
         $this->startDate = $startDate;
         $this->endDate = $endDate;
         $this->status = $status;
-        $this->stats = $stats;
     }
 
     public function view(): View
@@ -38,8 +37,7 @@ class PeminjamanExport implements FromView, ShouldAutoSize, WithStyles
             'data' => $data,
             'startDate' => $this->startDate,
             'endDate' => $this->endDate,
-            'status' => $this->status,
-            'stats' => $this->stats
+            'status' => $this->status
         ]);
     }
 

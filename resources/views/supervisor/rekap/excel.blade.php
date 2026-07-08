@@ -23,19 +23,7 @@
         <!-- Empty Row -->
         <tr><th colspan="8"></th></tr>
         
-        <!-- Statistics Summary Row -->
-        <tr>
-            <th colspan="2" style="font-weight: bold; text-align: left;">Total Barang Keseluruhan</th>
-            <td colspan="6">{{ $stats['total_aset'] }} Unit</td>
-        </tr>
-        <tr>
-            <th colspan="2" style="font-weight: bold; text-align: left;">Total Stok Tersedia</th>
-            <td colspan="6" style="color: #15803d; font-weight: bold;">{{ $stats['tersedia'] }} Unit</td>
-        </tr>
-        <tr>
-            <th colspan="2" style="font-weight: bold; text-align: left;">Total Barang Dipinjam</th>
-            <td colspan="6" style="color: #a16207; font-weight: bold;">{{ $stats['dipinjam'] }} Unit</td>
-        </tr>
+
 
         <!-- Empty Row -->
         <tr><th colspan="8"></th></tr>
@@ -47,6 +35,8 @@
             <th style="background-color: #00A2E9; color: #FFFFFF; font-weight: bold; text-align: center;">NAMA PEMINJAM</th>
             <th style="background-color: #00A2E9; color: #FFFFFF; font-weight: bold; text-align: center;">LOKASI PEKERJAAN (UNIT)</th>
             <th style="background-color: #00A2E9; color: #FFFFFF; font-weight: bold; text-align: center;">ALAT YANG DIPINJAM (KODE BARANG)</th>
+            <th style="background-color: #00A2E9; color: #FFFFFF; font-weight: bold; text-align: center;">JML DIPINJAM</th>
+            <th style="background-color: #00A2E9; color: #FFFFFF; font-weight: bold; text-align: center;">SISA STOK ALAT</th>
             <th style="background-color: #00A2E9; color: #FFFFFF; font-weight: bold; text-align: center;">ESTIMASI KEMBALI</th>
             <th style="background-color: #00A2E9; color: #FFFFFF; font-weight: bold; text-align: center;">STATUS SAAT INI</th>
             <th style="background-color: #00A2E9; color: #FFFFFF; font-weight: bold; text-align: center;">KETERANGAN / URGENSI</th>
@@ -58,6 +48,13 @@
                 $detailAlat = $peminjaman->detail_peminjaman->map(function($detail) {
                     return $detail->item_inventaris->peralatan->nama_alat . ' [' . $detail->item_inventaris->kode_barcode . ']';
                 })->implode(', ');
+
+                $jmlDipinjam = $peminjaman->detail_peminjaman->count();
+
+                $sisaStok = $peminjaman->detail_peminjaman->map(function($detail) {
+                    $stok = \App\Models\ItemInventaris::where('peralatan_id', $detail->item_inventaris->peralatan_id)->where('status_ketersediaan', 'Tersedia')->count();
+                    return $stok . ' Unit';
+                })->implode(', ');
             @endphp
             <tr>
                 <td>{{ $peminjaman->kode_peminjaman }}</td>
@@ -65,6 +62,8 @@
                 <td>{{ $peminjaman->user->nama_lengkap ?? 'User Tidak Diketahui' }}</td>
                 <td>{{ $peminjaman->unit_tujuan->nama_unit ?? '-' }}</td>
                 <td>{{ $detailAlat }}</td>
+                <td style="text-align: center;">{{ $jmlDipinjam }}</td>
+                <td>{{ $sisaStok }}</td>
                 <td>{{ \Carbon\Carbon::parse($peminjaman->estimasi_kembali)->format('d/m/Y H:i') }}</td>
                 <td>{{ $peminjaman->status_peminjaman }}</td>
                 <td>{{ $peminjaman->keterangan_pekerjaan }}</td>

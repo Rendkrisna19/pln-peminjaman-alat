@@ -28,13 +28,7 @@ class RekapController extends Controller
 
         $rekap = $query->orderBy('tanggal_pengajuan', 'desc')->paginate(15)->withQueryString();
 
-        $stats = [
-            'total_aset' => \App\Models\ItemInventaris::count(),
-            'tersedia' => \App\Models\ItemInventaris::where('status_ketersediaan', 'Tersedia')->count(),
-            'dipinjam' => \App\Models\ItemInventaris::where('status_ketersediaan', 'Dipinjam')->count(),
-        ];
-
-        return view('supervisor.rekap.index', compact('rekap', 'startDate', 'endDate', 'status', 'stats'));
+        return view('supervisor.rekap.index', compact('rekap', 'startDate', 'endDate', 'status'));
     }
 
     public function exportPdf(Request $request)
@@ -54,13 +48,7 @@ class RekapController extends Controller
 
         $data = $query->orderBy('tanggal_pengajuan', 'desc')->get();
         
-        $stats = [
-            'total_aset' => \App\Models\ItemInventaris::count(),
-            'tersedia' => \App\Models\ItemInventaris::where('status_ketersediaan', 'Tersedia')->count(),
-            'dipinjam' => \App\Models\ItemInventaris::where('status_ketersediaan', 'Dipinjam')->count(),
-        ];
-        
-        $pdf = Pdf::loadView('supervisor.rekap.pdf', compact('data', 'startDate', 'endDate', 'status', 'stats'))
+        $pdf = Pdf::loadView('supervisor.rekap.pdf', compact('data', 'startDate', 'endDate', 'status'))
                   ->setPaper('a4', 'landscape');
                   
         return $pdf->download('Laporan_Peminjaman_PLN_' . date('Ymd') . '.pdf');
@@ -68,14 +56,8 @@ class RekapController extends Controller
 
     public function exportExcel(Request $request) 
     {
-        $stats = [
-            'total_aset' => \App\Models\ItemInventaris::count(),
-            'tersedia' => \App\Models\ItemInventaris::where('status_ketersediaan', 'Tersedia')->count(),
-            'dipinjam' => \App\Models\ItemInventaris::where('status_ketersediaan', 'Dipinjam')->count(),
-        ];
-
         return Excel::download(
-            new PeminjamanExport($request->start_date, $request->end_date, $request->status, $stats), 
+            new PeminjamanExport($request->start_date, $request->end_date, $request->status), 
             'Rekap_Peminjaman_PLN_' . date('Ymd') . '.xlsx'
         );
     }

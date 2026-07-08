@@ -66,23 +66,7 @@
         @if($status) | Status: {{ $status }} @endif
     </div>
 
-    <!-- Informasi Stok Barang -->
-    <table style="width: 100%; margin-bottom: 20px; border-collapse: collapse;">
-        <tr>
-            <td style="width: 33%; padding: 10px; border: 1px solid #bdc3c7; text-align: center; background-color: #f8fafc;">
-                <span style="font-size: 10px; color: #64748b; font-weight: bold; text-transform: uppercase;">Total Barang Keseluruhan</span><br>
-                <span style="font-size: 16px; color: #0f172a; font-weight: bold;">{{ $stats['total_aset'] }} Unit</span>
-            </td>
-            <td style="width: 33%; padding: 10px; border: 1px solid #bdc3c7; text-align: center; background-color: #f0fdf4;">
-                <span style="font-size: 10px; color: #166534; font-weight: bold; text-transform: uppercase;">Total Stok Tersedia</span><br>
-                <span style="font-size: 16px; color: #15803d; font-weight: bold;">{{ $stats['tersedia'] }} Unit</span>
-            </td>
-            <td style="width: 33%; padding: 10px; border: 1px solid #bdc3c7; text-align: center; background-color: #fefce8;">
-                <span style="font-size: 10px; color: #854d0e; font-weight: bold; text-transform: uppercase;">Total Barang Dipinjam</span><br>
-                <span style="font-size: 16px; color: #a16207; font-weight: bold;">{{ $stats['dipinjam'] }} Unit</span>
-            </td>
-        </tr>
-    </table>
+
 
     <table class="data-table">
         <thead>
@@ -92,8 +76,10 @@
                 <th width="10%">Tanggal</th>
                 <th width="15%">Peminjam</th>
                 <th width="15%">Lokasi Pekerjaan</th>
-                <th width="35%">Rincian Alat & Kode Barang</th>
-                <th width="10%">Status</th>
+                <th width="30%">Rincian Alat & Kode Barang</th>
+                <th width="8%">Jml Dipinjam</th>
+                <th width="10%">Sisa Stok Alat</th>
+                <th width="9%">Status</th>
             </tr>
         </thead>
         <tbody>
@@ -111,7 +97,15 @@
                     @endforeach
                     </ul>
                 </td>
-                <td class="text-center status-badge">{{ $item->status_peminjaman }}</td>
+                <td class="text-center" style="vertical-align: middle;"><b>{{ $item->detail_peminjaman->count() }} Unit</b></td>
+                <td>
+                    <ul style="margin: 0; padding-left: 15px; list-style-type: none;">
+                    @foreach($item->detail_peminjaman as $det)
+                        <li style="color: #15803d; font-weight: bold;">{{ \App\Models\ItemInventaris::where('peralatan_id', $det->item_inventaris->peralatan_id)->where('status_ketersediaan', 'Tersedia')->count() }} Unit</li>
+                    @endforeach
+                    </ul>
+                </td>
+                <td class="text-center status-badge" style="vertical-align: middle;">{{ $item->status_peminjaman }}</td>
             </tr>
             @empty
             <tr>
